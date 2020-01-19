@@ -10,19 +10,17 @@
 int addition (int a, int b){
     int carries = 1; // assigned 1 to carries to start the while loop
     while(carries != 0){
-        // we use a to store the runtime addition result
-        
-        carries = a & b; //calculate the carries
-/*  Check if we are in round 2 (carries must be 0)  */   
-        if (carries == 0) // round 2, carries must be 0
-            a = a ^ carries; // assign final result of addition to a 
+        if (carries != 0){ // with carries
+            carries = a & b;
+            a = a ^ b; // calculate the addition and assigned to a
+            b = 0;
+            carries <<=1; // left shift the carries
+        }else {
+            a = a ^ b;
             break;
-
-        a = a ^ b; // calculate the addition and assigned to a
-        carries <<=1; // left shift the carries 
+        }
     }
-
-    return 0;
+    return a; // return the addition result
 }
 
 int main() { 
@@ -32,7 +30,7 @@ int main() {
     printf("next number:\n");
     scanf("%d",&y);
     printf("the numbers are %d + %d\n", x, y);
-    
+     
     result = addition(x, y);
     printf("result = %d", result);
 }
