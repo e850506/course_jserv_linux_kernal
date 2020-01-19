@@ -4,6 +4,9 @@
  * @ title: Do the addition using bitwise operation
  * @ ref : https://hackmd.io/UwDCb8YMQ--gneR2eqEGWw?both
  */
+// @@ This version can only do the positive integer addition. 
+
+
 
 #include <stdio.h>
 
@@ -19,30 +22,28 @@ int addition (int x, int y){
         
         if (b == 0)
             return a;
-        else
+        else 
             b <<= 1;
-        printf("b = %d\n", b);
-        x = a;
-        y = b;
+            printf("b = %d\n", b);
+        x = a; // assign the runtime adding result to x (for x ^ y and x & y )
+        y = b; // assign the carries to y (for x ^ y and x & y )
     }while(b != 0);
     
     return 0;
 }
 
-int main() {
+int main() { 
     int x = 0, y = 0, result = 0;
     printf("intput the numbers two add:\n");
     scanf("%d",&x);
     printf("next number:\n");
     scanf("%d",&y);
-    printf("the numbers are %d + %d", x, y);
+    if (x < 0 || y < 0)
+        printf("the number must be 0");
+        return 0;
+    printf("the numbers are %d + %d\n", x, y);
     
     result = addition(x, y);
     printf("result = %d", result);
 }
-// 3 = 0b0011
-// 2 = 0b0010
-//3+2 error : 4 infinite loop
-// 3 & 2 = 0b0010 (count the carries)
-// 3 ^ 2 = 0b0001 (addition without carries)
-//
+
