@@ -30,7 +30,7 @@ int main(int argc, char *argv[]){
     }
     
     const char *input_path = argv[1];
-    FILE *fin = fopen(input_path, "rb");
+    FILE *fin = fopen(input_path, "rb"); // dealing with file input
     if (!fin) {
     	fclose(fin);
 	fprintf(stderr, 
@@ -38,8 +38,46 @@ int main(int argc, char *argv[]){
 	exit(-1);
     }
     
-    const char *output_paht = argv[2];
-    FILE *fout = fopen(output_path, "wb");
+    const char *output_path = argv[2];
+    FILE *fout = fopen(output_path, "wb"); // dealing with file output
+    if (!fout) {
+        fclose(fin);
+        fprintf(stderr,
+                "ERROR: failed to open output file %s\n", output_path);
+    }
+
+    uint32_t ch;
+    int nread;
+    while((nread = fread(&ch, 1, sizeof(uint32_t), fin)) > 0){
+        /* if read size less than sizeof(uint32_t), just write it. */
+        if (nread < sizeof(uint32_t)){
+            fwrite(&ch, 1, nread, fout);
+        }
+        else {
+                uint32_t chn = reverse_bit(ch);
+                fwrite(&chn, 1, nread, fout);
+        }
+        
+        fclose(fin);
+        fclose(fout);
+        return 0;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
