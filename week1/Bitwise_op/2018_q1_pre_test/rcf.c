@@ -20,7 +20,7 @@ uint32_t reverse_bit(uint32_t x) {
 }	
 
 int main(int argc, char *argv[]){
-    if (argc < 3) {
+    if (argc < 3) {  // type ./rcf to check the manual.
         printf( "\nUsage:" 
                 "\t %s input.txt output.txt\n\n"
 		"This is a simple encrypt/decrypt app "
@@ -29,8 +29,8 @@ int main(int argc, char *argv[]){
         return 0;
     }
     
-    const char *input_path = argv[1];
-    FILE *fin = fopen(input_path, "rb"); // dealing with file input
+    const char *input_path = argv[1]; // input from input.txt
+    FILE *fin = fopen(input_path, "rb"); // dealing with file input 
     if (!fin) {
     	fclose(fin);
 	fprintf(stderr, 
@@ -38,7 +38,7 @@ int main(int argc, char *argv[]){
 	exit(-1);
     }
     
-    const char *output_path = argv[2];
+    const char *output_path = argv[2]; // argv[2] = output.txt
     FILE *fout = fopen(output_path, "wb"); // dealing with file output
     if (!fout) {
         fclose(fin);
@@ -46,7 +46,7 @@ int main(int argc, char *argv[]){
                 "ERROR: failed to open output file %s\n", output_path);
     }
 
-    uint32_t ch;
+    uint32_t ch; // pointer to the the text 
     int nread;
     while((nread = fread(&ch, 1, sizeof(uint32_t), fin)) > 0){
         /* if read size less than sizeof(uint32_t), just write it. */
