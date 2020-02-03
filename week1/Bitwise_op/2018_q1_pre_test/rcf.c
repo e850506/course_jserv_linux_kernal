@@ -32,9 +32,8 @@ int main(int argc, char *argv[]){
     const char *input_path = argv[1]; // input from input.txt
     FILE *fin = fopen(input_path, "rb"); // dealing with file input 
     if (!fin) {
-    	fclose(fin);
 	fprintf(stderr, 
-	       "Error: failed to open input file %s\n", input_path);
+            "Error: failed to open input file %s\n", input_path);
 	exit(-1);
     }
     
@@ -43,7 +42,8 @@ int main(int argc, char *argv[]){
     if (!fout) {
         fclose(fin);
         fprintf(stderr,
-                "ERROR: failed to open output file %s\n", output_path);
+            "ERROR: failed to open output file %s\n", output_path);
+        exit(-1); // EXIT_FAILURE;
     }
 
     uint32_t ch; // pointer to the the text 
@@ -57,27 +57,9 @@ int main(int argc, char *argv[]){
                 uint32_t chn = reverse_bit(ch);
                 fwrite(&chn, 1, nread, fout);
         }
-        
+        printf("nread=%d\n", nread);
         fclose(fin);
         fclose(fout);
         return 0;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
