@@ -5,7 +5,7 @@
 參考以下Code
 
 ```c
-##include <stdio.h>
+#include <stdio.h>
 
 int main(){
     int b = 2;
@@ -27,7 +27,7 @@ address of b = 0x7ffee4ad47d8
 ## 怎麼樣能利用一個變數的地址、去拿到這個變數呢？
 
 ```c
-##include <stdio.h>
+#include <stdio.h>
 
 int main(){
     int b = 2;
@@ -45,3 +45,5 @@ address of b = 0x7ffeef36f7d8
 Value of b = 2
 ```
 * ```b``` and ```*&b```是等價的 (*& 位置不能交換 無法解釋)
+
+## 指標變數（Pointer variable）
