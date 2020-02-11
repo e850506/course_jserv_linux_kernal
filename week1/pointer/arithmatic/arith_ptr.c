@@ -1,5 +1,6 @@
 /*
  * Created by unknowntpo at 2020.2.11 (Tue)
+<<<<<<< HEAD
  * @ use pointer to array to increment a pointer
  */
 
@@ -20,3 +21,7 @@ int main () {
     }
     return 0;
 }
+=======
+ * @ use pointer to array to Incrementing a pointer
+ * @ use 
+>>>>>>> 06069572fcc714398c53f6e69a84147e58677351
