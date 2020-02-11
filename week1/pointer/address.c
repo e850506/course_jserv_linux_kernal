@@ -7,9 +7,12 @@
 
 int main(){
     int b = 2;
-    printf("value of b = %d\n",b);
-    printf("address of b = %p\n",&b);
-    printf("Value of b = %d\n", *&b); // get the value from the addr of b
-    printf("Value of b = %d\n", &*b);
+    int *ptr = &b;
+    unsigned long lu = 0;
+    printf("value of b: %d\n", b);
+    printf("addr. of b: %p\n", &b);
+    printf("value of pointer: %p\n", ptr); // ptr == &b
+    printf("addr. of pointer variable 'ptr': %p\n", &ptr);
+    printf("value of pointer: %d\n", *ptr);
     return 0;
 }
