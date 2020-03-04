@@ -8,7 +8,6 @@
  *      to access nested structure screen.pt1.x 
  */
 
-
 #include <stdio.h>
 
 struct point {
@@ -16,13 +15,14 @@ struct point {
     int y;
 };
 
-struct rect {
+typedef struct {
     struct point pt1;
     struct point pt2;  
-};
+} rect;
 
 int main () {
-    struct rect screen;
+    //struct rect screen;
+    rect screen;
     screen.pt1.x = 3;
     screen.pt1.y = 0;
     screen.pt2.x = 2;
