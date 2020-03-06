@@ -5,20 +5,26 @@
  * @ Short description:
  *      Nested structure "screen"  
  *      use member access operator (.)
- *      to access nested structure screen.pt1.x 
- */
+ *      to access nested structure screen.pt1.x
+ * @ K&R_6.2: structures and functions   
+ *      
+ */     
 
 #include <stdio.h>
 
-struct point {
+typedef struct {
     int x;
     int y;
-};
+}point;
 
 typedef struct {
-    struct point pt1;
-    struct point pt2;  
+    point pt1;
+    point pt2;  
 } rect;
+
+/* @func: makepoint: 
+
+
 
 int main () {
     //struct rect screen;
