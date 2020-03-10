@@ -11,6 +11,9 @@
  */     
 #define XMAX 10 
 #define YMAX 10
+#define min(a, b) ((a) < (b) ? (a) : (b))
+#define max(a, b) ((a) > (b) ? (a) : (b))
+
 #include <stdio.h>
 
 /**
@@ -78,6 +81,24 @@ int ptinrect(point p, rect r)
         && (p.y >= r.pt1.y) && (p.y < r.pt2.y);
 }
 
+/** 
+ * func: canonrect() - canonicalize coordinates of rectangle
+ * @Description
+ *     used to make sure that 
+ *         pt1 is at bottom - left corner,
+ *         pt2 is at top - right corner.
+ * @r: a rect which data type is 'struct rect'
+ * Return: a rect which data type is 'struct rect'.
+ */
+rect cononrect (rect r)
+{
+    rect temp;
+    temp.pt1.x = min(r.pt1.x, r.pt2.x);
+    temp.pt1.y = min(r.pt1.y, r.pt2.y);
+    temp.pt2.x = max(r.pt1.x, r.pt2.x);        
+    temp.pt2.y = max(r.pt1.y, r.pt2.y);    
+    return temp;
+}
 
 int main()
 {
@@ -87,13 +108,15 @@ int main()
     point middle;
     point makepoint(int ,int);
     /* assign value to pt1 and pt2 and middle with makepoint func. */
-    screen.pt1 = makepoint(0, 0);
-    screen.pt2 = makepoint(XMAX, YMAX);
+    screen.pt2 = makepoint(0, 0);
+    screen.pt1 = makepoint(XMAX, YMAX);
     middle = makepoint((screen.pt1.x + screen.pt2.x)/2,
                        (screen.pt1.y + screen.pt2.y)/2);
+    screen = cononrect(screen);
     int inrect;
+    inrect = ptinrect(middle, screen);
     if (inrect) {
-        printf("point (%d,%d) is in the rectangle.\n", middle.x, middle.y);
+         printf("point (%d,%d) is in the rectangle.\n", middle.x, middle.y);
     }else {
          printf("point (%d,%d) is not in the rectangle.\n", middle.x, middle.y);
     }
