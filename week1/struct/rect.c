@@ -1,14 +1,15 @@
 /*
  * @ File name: rect.c
  * @ Author: unknowntpo at 2020.2.24 (Mon)
- * @ Title: Structure tag;
+ * @ Title: Check whether a point is in rectangle or not.
  * @ Short description:
- *      Nested structure "screen"  
- *      use member access operator (.)
- *      to access nested structure screen.pt1.x
+ *      Make two point to form a rectangle called 'screen',   
+ *      and count the middle point.
+ *      then, use ptinrect(middle, screen) function to check that
+ *      middle point is in the rectangle.
  * @ K&R_6.2: structures and functions   
- *      
  */     
+
 #define XMAX 10 
 #define YMAX 10
 #define min(a, b) ((a) < (b) ? (a) : (b))
@@ -92,7 +93,7 @@ int ptinrect(point p, rect r)
  */
 rect cononrect (rect r)
 {
-    rect temp;
+    rect temp = {{0, 0}, {0, 0}};
     temp.pt1.x = min(r.pt1.x, r.pt2.x);
     temp.pt1.y = min(r.pt1.y, r.pt2.y);
     temp.pt2.x = max(r.pt1.x, r.pt2.x);        
