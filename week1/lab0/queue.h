@@ -19,4 +19,13 @@ typedef struct ELE {
      */
     char *value;
     struct ELE *next;
-} lsit_ele_t;
+} list_ele_t;
+typedef struct{
+    list_ele_t *head;
+    list_ele_t *tail;
+    int size;
+}queue_t;
+
+
+
+
