@@ -196,11 +196,6 @@ bool q_insert_head(queue_t *q, char *s)
     return true;
 }
 ```
-#### strncpy 問題
-:::spoiler
-
-
-
 為什麼在做完 string copy, 並 return 之前，我嘗試釋放一個自己 malloc 的記憶體區塊 str 時，反而在使用```make test```測試的時候產生亂碼並出現錯誤訊息呢？
 ```
 $ make check
@@ -276,9 +271,8 @@ newh->value 指向一個空的地方。
      dst is filled with `\0' characters.  Otherwise, dst is not terminated.
      The source and destination strings should not overlap, as the behavior is
      undefined."
-:::
 
-:::spoiler
+
 ### 閱讀 K&R 6.1 Basics of structures
 #### Declaration of structure
 可行的宣告方式：
@@ -669,15 +663,3 @@ segmentation fault:
 >基礎觀念還是要仔細學習，不能輕率，
 >不然到最後還是要繞一大圈，反而更花時間
 >[name=unknowntpo] [time=Thu, Mar 12, 2020 11:08 AM]
-
-
-
-
-
-
-
-
-
-
-
-
