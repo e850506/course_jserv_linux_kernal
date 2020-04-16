@@ -3,12 +3,18 @@ contributed by < `unknowntpo` >
 
 # 目前進度
 
-* K&R 6.2 Structure and functions
+* ~~K&R 6.2 Structure and functions~~
     * Follow the practice in K&R 6.2 Structure and Functions, to implement a program that can check whether a point is in rectangle or not.
-
->[name=unknowntpo] [time=Wed, Mar 11, 2020 8:00 AM]
-
-* 待加強: 開發日誌排版技巧
+* K&R p.131 pointer and structure operator precedence
+    >[name=unknowntpo] [time=Wed, Mar 11, 2020 8:00 AM]
+* queue.c
+    * ~~q_new()~~
+    * ~~q_size()~~
+    * ~~q_free()~~
+    * :dart: q_insert_head()
+        * ```free(str)``` 的問題
+# Outline
+[TOC]
 
 :::success
 “If I had eight hours to chop down a tree, I’d spend six hours sharpening my axe.” – Abraham Lincoln
@@ -30,6 +36,15 @@ contributed by < `unknowntpo` >
 * 作業 (HackMD)
     * my [lab0-c](https://hackmd.io/@unknowntpo/lab0-c)
     * [OscarShiang 同學範本](https://hackmd.io/@WaryvM_MTuOkXtEEalFsvQ/Sy5oUP6MU)
+    * [Adrain Huang 同學範本](https://github.com/AdrianHuang/lab0-c/commits/master?fbclid=IwAR1xOM3X-epOMTBtn-KpreTcr_o3IuxpBeTkXJ1zqTMBObLxF4sebxG2_sE)
+        * Adrian Huang 針對給定的 lab0-c 專案進行更動，在他的 GitHub repository 中包含簡潔卻富含資訊量的 git  commit messages
+    * [ZhuMon 同學範本](/@ZhuMon/lab0-c)
+    * [Randy 同學範本](https://hackmd.io/@randy870819/system-prog-lab0?fbclid=IwAR3spFl04I9SYw_aRsYDtHl4oDX3rlQxlC8ujqgbywIBqhbzZIpA9bjLbwU)
+        * Makefile 分析
+    * Ryspon 同學範本
+        * [2020q1 第 1 週隨堂測驗解題思路](/@Ryspon/HJVH8B0XU?fbclid=IwAR2VLjJWs_3hmp_jTWgtTooeFAOUz4dQ08lKThvHsUePNpr6AKCZShSlcJc)
+        * Ryspon 針對第 1 週隨堂測驗，給出他的解題思路，請見下方共筆。在不存在環狀結構的狀況下，給定一個遞迴函式能對 linked list 元素進行排序。
+除了解題，他嘗試擴充為 circular doubly-linked list 並重新實作對應的排序。
 
 :::info
 >參考 makefile build 出檔案的方式來學習
@@ -45,17 +60,24 @@ target: prerequisites
 ### Linked Lists 基礎知識
 
 課內學習資源：
-* [CMU C Programming Lab: Assessing Your C Programming Skills](http://www.cs.cmu.edu/~213/labs/cprogramminglab.pdf)
-    * [CMU Linked List Tutorial](http://www.cs.cmu.edu/~iliano/courses/18S-CMU-CS122/handouts/10-linkedlist.pdf)
+* :dart: [CMU C Programming Lab: Assessing Your C Programming Skills](http://www.cs.cmu.edu/~213/labs/cprogramminglab.pdf)
+     
+    * 閱讀日期 2/28~3/25 
+        * [CMU Linked List Tutorial](http://www.cs.cmu.edu/~iliano/courses/18S-CMU-CS122/handouts/10-linkedlist.pdf)
+            * Linked list
+            * List-segment
+            * Cycle_detection
+            * Queue
+            * Stack (未讀)
 
 須具備基礎知識：
-* :dart:C structure 基本概念
-* Dynamic memory allocation
-* :dart:Typedef 基本概念
+* ~~:dart:C structure 基本概念~~
+* ~~Dynamic memory allocation~~
+* ~~:dart:Typedef 基本概念~~
     * K&R 6.7 Typedef
     * Typedef 在 structure 的應用
 
-### Queue 基礎知識
+
 
 ## 作業完成步驟
 * 開發環境設定
@@ -78,6 +100,178 @@ target: prerequisites
 ---
 
 ## 目前進度:
+
+### ```q_size()```
+```cpp
+int q_size(queue_t *q)
+{
+    return q->size;
+}
+```
+```make test ``` 評分
+```shell
++++ TESTING trace trace-14-perf:
+# Test performance of size
+---     trace-14-perf   6/6
+```
+
+### ```q_new()```
+
+```cpp
+queue_t *q_new()
+{
+    queue_t *q = malloc(sizeof(queue_t));
+    /* TODO: What if malloc returned NULL? */
+    if(!q)
+        return NULL;
+    // q is an empty queue now, so head and tail are NULL;
+    q->head = NULL;
+    q->tail = NULL;
+    q->size = 0; // set the size to zero.
+    /* TODO: Dummy node implementation and
+     * experiment the different with current ver. */
+    return q;
+}
+```
+
+```make test``` 評分
+```shell
++++ TESTING trace trace-10-malloc:
+# Test of malloc failure on new
+---	trace-10-malloc	6/6
+```
+> YA~6分，表示有得分很開心，我們實作的 malloc function 是可以的，之後實作完整個作業後再開啟 new branch 來嘗試 Dummy node 的使用。[name=unknowntpo] [time=Thu, Mar 26, 2020 9:35 PM]
+ 
+---
+
+### ```q_free()```
+
+### ```q_insert head()```
+
+```cpp=51
+/*
+ * Attempt to insert element at head of queue.
+ * Return true if successful.
+ * Return false if q is NULL or could not allocate space.
+ * Argument s points to the string to be stored.
+ * The function must explicitly allocate space and copy the string into it.
+ */
+bool q_insert_head(queue_t *q, char *s)
+{
+    /* If q is NULL, return false */
+    if (!q)
+        return false;
+    /* declare new head */
+    list_ele_t *newh;
+    newh = malloc(sizeof(list_ele_t));
+    /* If malloc of newh failed, return false */
+    if (!newh)
+        return false;
+    /* Declare a pointer to array of char */
+    char *str;
+    int len = strlen(s);
+    str = malloc(len + 1);
+    /* If malloc failed, return false */
+    if (!str) {
+        free(newh);
+        return false;
+    }
+    /* Connect the link */
+    newh->next = q->head;
+    q->head = newh;
+    /* If q->tail is NULL, means LL is empty, assign it to newh */
+    if (!q->tail)
+        q->tail = newh;
+
+    /* if currently tail point to NULL, make it point to newh */
+    if (!q->tail)
+        q->tail = newh;
+    /* Copy s to str */
+    str = strncpy(str, s, len);
+    str[len] = '\0';
+    newh->value = str;
+    q->size++;
+    /* Free str to avoid memory leak */
+    // free(str);
+    return true;
+}
+```
+為什麼在做完 string copy, 並 return 之前，我嘗試釋放一個自己 malloc 的記憶體區塊 str 時，反而在使用```make test```測試的時候產生亂碼並出現錯誤訊息呢？
+```
+$ make check
+  CC	queue.o
+  LD	qtest
+./qtest -v 3 -f traces/trace-eg.cmd
+cmd>
+cmd> # Demonstration of queue testing framework
+cmd> # Use help command to see list of commands and options
+cmd> # Initial queue is NULL.
+cmd> show
+q = NULL
+cmd> # Create empty queue
+cmd> new
+q = []
+cmd> # Fill it with some values.  First at the head
+cmd> ih dolphin
+q = [UUUUUUUU����]
+cmd> ih bear
+q = [UUUUU���� �ޭCBV]
+cmd> ih gerbil
+q = [UUUUUUU���� �ޭCBV �ޭCBV]
+cmd> # Now at the tail
+cmd> it meerkat
+Insertion of meerkat failed
+q = [UUUUUUU���� �ޭCBV �ޭCBV]
+cmd> it bear
+Insertion of bear failed
+q = [UUUUUUU���� �ޭCBV �ޭCBV]
+cmd> # Reverse it
+cmd> reverse
+q = [UUUUUUU���� �ޭCBV �ޭCBV]
+cmd> # See how long it is
+cmd> size
+Queue size = 3
+q = [UUUUUUU���� �ޭCBV �ޭCBV]
+cmd> # Delete queue.  Goes back to a NULL queue.
+cmd> free
+ERROR: Attempted to free unallocated block.  Address = 0x564243addef0
+ERROR: Attempted to free unallocated or corrupted block.  Address = 0x564243addef0
+ERROR: Corruption detected in block with address 0x564243addef0 when attempting to free it
+ERROR: Attempted to free unallocated block.  Address = 0x564243addeb0
+ERROR: Attempted to free unallocated block.  Address = 0x564243addeb0
+ERROR: Attempted to free unallocated or corrupted block.  Address = 0x564243addeb0
+ERROR: Corruption detected in block with address 0x564243addeb0 when attempting to free it
+ERROR: Time limit exceeded.  Either you are in an infinite loop, or your code is too inefficient
+q = NULL
+ERROR: Freed queue, but 1 blocks are still allocated
+cmd> # Exit program
+cmd> quit
+Freeing queue
+ERROR: Freed queue, but 1 blocks are still allocated
+Makefile:42: recipe for target 'check' failed
+make: *** [check] Error 1
+```
+#### 解決
+FB 問答回覆
+>在 ```q_insert head()``` 中的 91 行，將 newh->value = str 時 newh->value 跟 str 指向同一個地方，當 free(str) 會讓
+newh->value 指向一個空的地方。
+還有在 q_insert_head 中 85 行 strncpy 執行完後可以不用 str[len] = '\0'; ，strncpy 會幫你填 '\0'。
+[name=張佳鴻]
+
+我的解讀
+> 為了從 s 複製一個字串的內容而動態配置的記憶體片段，原本是由 str 指向它 ， 但是經由 newh->value = str 這個動作，現在換成是 newh->value 與str 來指向它並存在 linked list 內，所以並不需要釋放這個記憶體片段
+
+老師補充
+>感謝 張佳鴻 回覆。注意 Linux Programmer's Manual 的說明: "If there is no null byte among the first n bytes of src, the string placed in dest will not be null-terminated." / "If the length of src is less than n, strncpy() writes additional null bytes to dest to ensure that a total of n bytes are written."
+>
+我查的資料
+>in Linux Programmer's Manual
+"The stpncpy() and strncpy() functions copy at most len characters from
+     src into dst.  If src is less than len characters long, the remainder of
+     dst is filled with `\0' characters.  Otherwise, dst is not terminated.
+     The source and destination strings should not overlap, as the behavior is
+     undefined."
+
 
 ### 閱讀 K&R 6.1 Basics of structures
 #### Declaration of structure
@@ -375,6 +569,97 @@ $3 = {pt1 = {x = 0, y = 0}, pt2 = {x = 0, y = 0}}
 (gdb)
 ```
 
+
+
+
 發現到我們成功初始化 ```temp``` 了！
 
 但其實我們不需要初始化，畢竟不管 ```temp``` 內的 member 是什麼數字，之後都會馬上被 assign 成別的數。
+
+
+----
+### K&R p.131 pointer and structure operator precedence
+
+consider a structure
+```cpp
+struct {
+    int len;
+    char *str;
+}*p;
+```
+>murmur: 這個宣告是否合法？
+>[name=unknowntpo]
+
+then,
+* ```++p -> len```: 
+    * access the address of structure member ```len```,
+    * and imcrement ```len```
+* ```(++p)->len```:
+    * imcrement ```p``` and then access structure member len.
+
+* ```*p->str++```:
+    * access ```str```: ```(p->str)```
+    * evaluate ```str```: ```(p->str)++ ```
+    * get the value of ```str```.
+    * evaluate```++```: increment the value that ```str``` point to. 
+:::warning 
+查詢 imcrement operator increment 的時間 
+```*p->str++```: 解釋可能錯誤，該如何更好地用英文解釋這些運算的行為呢？ 我對用詞的掌握好像不太精準，可能會造成別人誤解
+:::
+
+* ```(*p->str)++```:
+    * get access to ```str``` :```(p->str)```
+    * get the value of ```str```: ```*(p->str)```
+    * imcrement the value that ```str``` pointed to. ```*(p->str)++```
+* ```*p++->str```:
+    * ```p++```: 先 evaluate p++, 在下一個 sequence point 前 increment p;
+    * ```p++->str```: get access to ```str```
+    * get the value of ```str```
+* 撰寫程式來測試這些操作是否為 Undefined Behavior
+```cpp=1
+#include <stdio.h>
+
+struct {
+    int len;
+    char *str;
+}*p;
+
+int main() {
+
+    p->len = 1;
+    p->str = "hello";
+    //printf("p -> len = %d", p->len);
+    //printf("++p -> len = %d", ++p->len);
+    return 0;
+}
+```
+遇到 segmentation fault.
+```shell
+(gdb) b 10
+Breakpoint 1 at 0x5fe: file pointer.c, line 10.
+(gdb) r
+Starting program: /home/ubuntu/course_jserv_linux_kernel/week1/struct/pointer
+
+Breakpoint 1, main () at pointer.c:10
+10          p->len = 1;
+(gdb) n
+
+Program received signal SIGSEGV, Segmentation fault.
+0x0000555555554605 in main () at pointer.c:10
+10          p->len = 1;
+(gdb)
+```
+segmentation fault:
+查詢 [Core Dump (Segmentation fault) in C/C++](https://www.geeksforgeeks.org/core-dump-segmentation-fault-c-cpp/)
+
+推測可能是 
+* structure 的宣告與
+* structure pointer 的觀念沒弄清楚。
+* 搞不懂 ```*p``` 的 scope, 所以存取了不能沒有存取權限的記憶體。
+
+閱讀 K&R 6.4 Pointers to Structures 後再修改程式。
+
+>小心得：
+>基礎觀念還是要仔細學習，不能輕率，
+>不然到最後還是要繞一大圈，反而更花時間
+>[name=unknowntpo] [time=Thu, Mar 12, 2020 11:08 AM]
