@@ -1,10 +1,22 @@
-CC = gcc
-CFLAGS = -g
+target := sort
+objs := sort.o
+deps := $(objs:%.o=.%.o.d)
+CC := gcc
+CFLAGS := -g
 
-all: sort
 
-sort : sort.c sort.h
-	$(CC) $(CFLAGS) -o $@ $^
+all: $(target)
 
+
+$(target): $(objs)
+	$(CC) -o $@ $^
+
+%.o: %.c
+	$(CC) $(CFLAGS) -o $@ -c -MMD -MF .$@.d $<
+
+
+.PHONY: clean
 clean:
-	-rm sort
+	-rm -f $(target) $(objs)
+
+-include $(deps)

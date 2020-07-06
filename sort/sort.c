@@ -29,12 +29,11 @@ int *sort_bubble(int *a, int size)
 {
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size - 1; j++) {
-            if (a[j] > a[j+1])
-                swap(&a[j], &a[j+1]);
+            if (a[j] > a[j + 1])
+                swap(&a[j], &a[j + 1]);
         }
         display(a, size);
     }
-      
     return a;
 }
 /** @brief This function display the value passed in
@@ -51,14 +50,16 @@ void display(int *p, int size)
 
 int main()
 {
-    int a[] = {3, 2, 1};
-    //int a[] = {8, 7, 6, 5, 4, 3, 2, 1};
+    //int a[] = {3, 2, 1};
+    int a[] = {8, 7, 6, 5, 4, 3, 2, 1};
     //int a[] = {3, 1, 6, 5, 4, 2, 8, 7};
-    int size = 3;
+    int size = 8;
     int *p = a;
     /* TODO: use callback function to apply more sort method */
     p = sort_bubble(a, size);
 
     display(p, size);
+    
+    return 0;
 
 }
